@@ -1,0 +1,8 @@
+---
+# defaults file for roles/wordpress
+username: xitest
+db_name: wordpress_db
+db_user: wordpress_user
+remi_repo_url: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+wordpress_url: https://wordpress.org/latest.tar.gz
+wordpress_docroot: /var/www/html/wordpress

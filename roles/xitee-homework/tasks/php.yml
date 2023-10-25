@@ -1,0 +1,22 @@
+---
+- name: Install remi repo
+  ansible.builtin.dnf:
+    name: "{{ remi_repo_url }}"
+    state: present
+    enablerepo: "remi,remi-php81"
+
+- name: Install needed php packages
+  ansible.builtin.yum:
+    name:
+      - php81-php
+      - php81-php-curl
+      - php81-php-bcmath
+      - php81-php-gd
+      - php81-php-soap
+      - php81-php-zip
+      - php81-php-mbstring
+      - php81-php-mysqlnd
+      - php81-php-xml
+      - php81-php-intl
+    state: present
+    nobest: true

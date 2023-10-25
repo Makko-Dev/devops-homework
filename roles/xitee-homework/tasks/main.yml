@@ -1,0 +1,15 @@
+---
+# tasks file for roles/wordpress
+- name: Install epel-release
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+
+- name: Import tasks user
+  ansible.builtin.import_tasks: user.yml
+
+- name: Import tasks httpd
+  ansible.builtin.import_tasks: httpd.yml
+
+- name: Import tasks mariadb
+  ansible.builtin.import_tasks: mariadb.yml

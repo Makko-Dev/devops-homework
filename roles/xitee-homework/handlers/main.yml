@@ -1,0 +1,34 @@
+---
+# handlers file for roles/wordpress
+
+- name: Restart_httpd
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
+
+- name: Reload_firewalld
+  ansible.builtin.command: firewall-cmd --reload
+  register: output
+  changed_when: output.rc != 0
+
+- name: Secure_mariadb
+  ansible.builtin.expect:
+    command: mysql_secure_installation
+    responses:
+      'Enter current password for root': ''
+      'Set root password': 'n'
+      'Remove anonymous users': 'y'
+      'Disallow root login remotely': 'y'
+      'Remove test database': 'y'
+      'Reload privilege tables now': 'y'
+    timeout: 1
+  register: secure_mariadb
+  failed_when: "'... Failed!' in secure_mariadb.stdout_lines"
+
+- name: Change_permissions
+  ansible.builtin.file:
+    dest: /var/www/html/wordpress/
+    owner: apache
+    group: apache
+    mode: "0755"
+    recurse: true

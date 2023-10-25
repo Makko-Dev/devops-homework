@@ -1,0 +1,33 @@
+---
+- name: Download wordpress
+  ansible.builtin.get_url:
+    url: "{{ wordpress_url }}"
+    dest: /var/www/html/
+    mode: "0644"
+
+- name: Check if wordpress directory exists
+  ansible.builtin.stat:
+    path: "{{ wordpress_docroot }}"
+  register: wordpress_directory
+
+- name: Extract wordpress
+  ansible.builtin.unarchive:
+    src: /var/www/html/latest.tar.gz
+    dest: /var/www/html/
+    remote_src: true
+  when: not wordpress_directory.stat.exists
+  notify: Change_permissions
+
+- name: Set SELinux context for /var/www/html/wordpress
+  ansible.builtin.file:
+    path: "{{ wordpress_docroot }}"
+    seuser: system_u
+    serole: object_r
+    setype: httpd_sys_rw_content_t
+    recurse: true
+    state: directory
+
+- name: Apply new SELinux file context to filesystem
+  ansible.builtin.command: restorecon -Rv /var/www/html/glpi
+  register: my_output
+  changed_when: my_output.rc != 0

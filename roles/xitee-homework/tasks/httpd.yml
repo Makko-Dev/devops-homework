@@ -1,0 +1,29 @@
+---
+- name: Install httpd
+  ansible.builtin.dnf:
+    name: httpd
+    state: present
+
+- name: Start and enable httpd service
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Ensure welcome.conf is copied and correct permissions are set for /etc/httpd/conf.d/welcome.conf
+  ansible.builtin.copy:
+    dest: /etc/httpd/conf.d/welcome.conf
+    src: welcome.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    Restart_httpd
+
+- name: Permit traffic in default zone for http service
+  ansible.posix.firewalld:
+    service: http
+    permanent: true
+    state: enabled
+  notify:
+    Reload_firewalld
