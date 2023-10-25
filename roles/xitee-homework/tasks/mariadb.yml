@@ -5,6 +5,11 @@
     state: present
   notify: Secure_mariadb
 
+- name: Install pymysql
+  ansible.builtin.pip:
+    name: pymysql
+    state: present
+
 - name: Start and enable mariadb service
   ansible.builtin.service:
     name: mariadb

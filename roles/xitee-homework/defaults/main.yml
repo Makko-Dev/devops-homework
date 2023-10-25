@@ -3,6 +3,7 @@
 username: xitest
 db_name: wordpress_db
 db_user: wordpress_user
+remi_repo_gpg_key_url: https://rpms.remirepo.net/RPM-GPG-KEY-remi2018
 remi_repo_url: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
 wordpress_url: https://wordpress.org/latest.tar.gz
 wordpress_docroot: /var/www/html/wordpress

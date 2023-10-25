@@ -1,4 +1,9 @@
 ---
+- name: Import remi GPG key
+  ansible.builtin.rpm_key:
+    key: "{{ remi_repo_gpg_key_url }}"
+    state: present
+
 - name: Install remi repo
   ansible.builtin.dnf:
     name: "{{ remi_repo_url }}"

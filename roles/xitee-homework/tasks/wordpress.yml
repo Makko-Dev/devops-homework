@@ -12,7 +12,7 @@
 
 - name: Extract wordpress
   ansible.builtin.unarchive:
-    src: /var/www/html/latest.tar.gz
+    src: /var/www/html/wordpress-6.3.2.tar.gz
     dest: /var/www/html/
     remote_src: true
   when: not wordpress_directory.stat.exists
@@ -28,6 +28,6 @@
     state: directory
 
 - name: Apply new SELinux file context to filesystem
-  ansible.builtin.command: restorecon -Rv /var/www/html/glpi
+  ansible.builtin.command: restorecon -Rv /var/www/html/wordpress
   register: my_output
   changed_when: my_output.rc != 0
