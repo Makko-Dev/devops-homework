@@ -18,14 +18,11 @@
   when: not wordpress_directory.stat.exists
   notify: Change_permissions
 
-- name: Set SELinux context for /var/www/html/wordpress
-  ansible.builtin.file:
-    path: "{{ wordpress_docroot }}"
-    seuser: system_u
-    serole: object_r
+- name: Check current SELinux context for /var/www/html/wordpress
+  community.general.sefcontext:
+    target: "{{ wordpress_docroot }}"
     setype: httpd_sys_rw_content_t
-    recurse: true
-    state: directory
+    seuser: system_u
 
 - name: Apply new SELinux file context to filesystem
   ansible.builtin.command: restorecon -Rv /var/www/html/wordpress

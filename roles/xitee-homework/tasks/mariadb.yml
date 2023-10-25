@@ -27,7 +27,7 @@
     name: "{{ db_user }}"
     host: "%"
     priv: '"{{ db_user }}".*:ALL'
-    password: "{{ mysql_wordpress_pass }}"
+    password: '{{ mysql_wordpress_pass }}'
     state: present
     check_implicit_admin: true
     login_unix_socket: /var/lib/mysql/mysql.sock
