@@ -1,0 +1,18 @@
+---
+- name: Create user xitest
+  ansible.builtin.user:
+    name: xitest
+    comment: Devops Homework
+    state: present
+    password: "{{ xitest_pass }}"
+    group: wheel
+
+- name: Add authorized keys for xitest user
+  ansible.posix.authorized_key:
+    user: xitest
+    state: present
+    key: '{{ item }}'
+  with_file:
+    - mhrebik.pub
+    - tkuba.pub
+    - mmzyk.pub

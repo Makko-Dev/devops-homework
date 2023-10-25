@@ -1,0 +1,6 @@
+---
+- name: Install and setup wordpress
+  hosts: localhost
+  become: true
+  roles:
+    - role: wordpress

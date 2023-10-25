@@ -1,0 +1,4 @@
+---
+# tasks file for roles/wordpress
+- name: Import tasks user
+  ansible.builtin.import_tasks: user.yml
