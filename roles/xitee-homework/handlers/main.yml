@@ -21,7 +21,7 @@
       'Disallow root login remotely': 'y'
       'Remove test database': 'y'
       'Reload privilege tables now': 'y'
-    timeout: 1
+    timeout: 3
   register: secure_mariadb
   failed_when: "'... Failed!' in secure_mariadb.stdout_lines"
 

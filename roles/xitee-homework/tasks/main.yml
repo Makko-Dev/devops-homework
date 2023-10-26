@@ -5,6 +5,12 @@
     name:
       - epel-release
       - tar
+      - python3-pip
+    state: present
+
+- name: Install pexpect with pip
+  ansible.builtin.pip:
+    name: pexpect
     state: present
 
 - name: Import tasks user
