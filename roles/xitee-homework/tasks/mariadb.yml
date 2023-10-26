@@ -18,16 +18,16 @@
 
 - name: Create a new mysql database
   community.mysql.mysql_db:
-    name: "{{ db_name }}"
+    name: "wordpress"
     state: present
     login_unix_socket: /var/lib/mysql/mysql.sock
 
 - name: Create a new mysql user
   community.mysql.mysql_user:
-    name: "{{ db_user }}"
+    name: "wordpress"
     host: "%"
-    priv: '"{{ db_user }}".*:ALL'
-    password: '{{ mysql_wordpress_pass }}'
+    priv: "wordpress.*:ALL"
+    password: "{{ db_pass }}"
     state: present
     check_implicit_admin: true
     login_unix_socket: /var/lib/mysql/mysql.sock
