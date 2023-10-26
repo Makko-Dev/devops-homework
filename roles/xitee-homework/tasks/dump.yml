@@ -1,0 +1,30 @@
+---
+- name: Ensure backup folder exists
+  ansible.builtin.file:
+    path: "/var/backup/"
+    owner: root
+    group: root
+    mode: "0700"
+    state: directory
+
+- name: Copy the backup script from template
+  ansible.builtin.template:
+    src: backup.sh.j2
+    dest: /usr/local/bin/
+    owner: root
+    group: root
+    mode: "0744"
+
+- name: Ensure that cronjob for running backup.sh exists
+  ansible.builtin.cron:
+    name: "Run backup.sh every eight hours"
+    minute: "0"
+    hour: "0,8,16"
+    job: "sh /usr/local/bin/backup.sh"
+
+- name: Ensure that backups older than two days are removed
+  ansible.builtin.cron:
+    name: "Remove backups older than two days"
+    minute: "0"
+    hour: "0,8,16"
+    job: "find /var/backup/ -type f -mtime +2 -exec rm {} \\;"

@@ -2,8 +2,8 @@
 # tasks file for roles/wordpress
 - name: Install epel-release
   ansible.builtin.dnf:
-    name: 
-      - epel-release 
+    name:
+      - epel-release
       - tar
     state: present
 
@@ -21,3 +21,6 @@
 
 - name: Import tasks wordpress
   ansible.builtin.import_tasks: wordpress.yml
+
+- name: Import tasks dump
+  ansible.builtin.import_tasks: dump.yml

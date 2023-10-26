@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Set the current date and time
+timestamp=$(date +"%Y%m%d_%H%M")
+
+# Define the backup directory
+backup_dir="{{ backup_dir }}"
+
+# Create a directory for the current backup
+current_backup_dir="$backup_dir/backup_$timestamp"
+mkdir -p "$current_backup_dir"
+
+# Backup the database
+mysqldump -u root wordpress_db > "$current_backup_dir/wordpress_db_backup.sql"
+
+# Backup the website files
+tar -czf "$current_backup_dir/wordpress_web_files.tar.gz" "{{ wordpress_docroot }}"
+
+# Create an archive of the entire backup
+tar -czf "$backup_dir/backup_${timestamp}.tar.gz" -C "$backup_dir" "backup_$timestamp"
+
+# Clean up the temporary backup directory
+rm -r "$current_backup_dir"
